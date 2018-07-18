@@ -1,0 +1,38 @@
+Vagrant.configure("2") do |config|
+    config.ssh.shell = "bash -l"
+    config.ssh.keep_alive = true
+    config.ssh.forward_agent = true
+    config.ssh.forward_x11 = false
+    config.vagrant.host = :detect
+
+    config.vm.define "default", primary: true do |default|
+        default.ssh.username = "vagrant"
+        default.vm.box = "architrave/Debian-jessie"
+        default.vm.hostname = "architrave.local"
+        default.vm.usable_port_range = (2200..2250)
+        default.vm.network :private_network, ip: "10.250.0.10"
+
+        default.vm.provider :virtualbox do |virtualbox|
+            virtualbox.customize ["modifyvm", :id, "--name", "architrave"]
+            virtualbox.customize ["setextradata", :id,
+                    "--VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+        end
+
+        default.vm.provider :parallels do |parallels, override|
+            parallels.customize ["set", :id, "--smart-mount", "off"]
+            parallels.check_guest_tools = false # Prevent checking the guest tools version for faster boot
+            parallels.name = "architrave"
+            override.vm.box = "parallels/debian-8.6"
+            parallels.memory = 2048
+            parallels.cpus = 2
+        end
+        
+        default.vm.provision :ansible do |ansible|
+            ansible.playbook = "playbook-vagrant.yml"
+            ansible.become = true
+            ansible.become_user = "root"
+            ansible.verbose = ''
+            ansible.inventory_path = "inventory"
+        end
+    end
+end
