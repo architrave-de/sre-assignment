@@ -33,9 +33,8 @@ To access the instance via http/s use `http://architrave.local`
 3. Add http redirection so all traffic will be served via https
 4. Make sure the client is not receiving the Nginx version as part of the http headers
 5. Create user `testuser` with password `qweRTZ123`
-6. Change the location of the website files to a more secure folder and greant `testuser` permissions to read the folder content
+6. Change the location of the website files to a more secure folder and grent `testuser` permissions to read the folder content
 
 ### Part 2: Docker
 7. Create a new folder `docker` at the root of the repository
 8. Migrate the code to docker using micro-services architecture, all the files should be stored inside the `docker` folder.
-
