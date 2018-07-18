@@ -1,0 +1,6 @@
+---
+swapfile_location: /swapfile
+swapfile_size: 1024MB
+swapfile_swappiness: false
+swapfile_vfs_cache_pressure: false
+swapfile_use_dd: false

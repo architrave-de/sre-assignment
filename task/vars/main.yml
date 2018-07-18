@@ -1,0 +1,38 @@
+deploy_username: vagrant
+
+server_packages:
+  - vim
+  - avahi-daemon
+  - curl
+  - apt-transport-https
+  - libnspr4
+  - libnss3
+  - libopenjp2-7
+  - ca-certificates
+
+httpd_sendfile: 'off'
+httpd_docroot_protected_files: /storage/data
+httpd_force_ssl: false
+httpd_restrict_health: false
+
+php_ini_overrides:
+  - upload_max_filesize=150M
+  - post_max_size=155M
+  - date.timezone=Europe/Berlin
+  - memory_limit=512M
+  - xdebug.max_nesting_level=2000
+  - session.cache_limiter=
+  - session.use_strict_mode=1
+  - session.cookie_httponly=1
+  - session.cookie_secure=1
+  
+php_fpm_ini_overrides:
+  - display_errors=On
+  - error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+  - xdebug.max_nesting_level=2000
+  - xdebug.remote_enable=1
+  - xdebug.remote_port=9000
+  - xdebug.remote_host="10.0.2.2"
+  - xdebug.remote_handler="dbgp"
+  - xdebug.remote_connect_back=0
+  - xdebug.idekey="PHPSTORM"

@@ -1,0 +1,15 @@
+---
+- name: "Restart nginx"
+  service:
+    name: nginx
+    state: restarted
+    enabled: "yes"
+
+- name: "Config test nginx"
+  shell: /etc/init.d/nginx configtest
+
+- name: "Restart php-fpm"
+  service:
+    name: php7.0-fpm
+    state: restarted
+    enabled: "yes"

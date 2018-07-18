@@ -1,0 +1,52 @@
+
+server {
+    listen                443;
+    ssl                   on;
+    ssl_certificate       {{ httpd_ssl_cert_path }};
+    ssl_certificate_key   {{ httpd_ssl_key_path }};
+    ssl_session_cache shared:SSL:20m;
+    ssl_session_timeout 180m;
+    add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
+
+    server_name           {{fqdn}};
+    access_log            /var/log/nginx/access.log;
+    access_log            /var/log/nginx/performance.log apm;
+
+    sendfile {{ httpd_sendfile }};
+
+    location / {
+        root /var/www/;
+        try_files {{ httpd_try_files }};
+        index  {{ httpd_index }};
+        client_max_body_size {{ httpd_client_max_body_size }};
+        # Enable GZip
+        gzip on;
+        gzip_comp_level 6;
+        gzip_min_length 1100;
+        gzip_buffers 16 8k;
+        gzip_proxied any;
+        gzip_types
+          text/plain
+          text/css
+          text/js
+          text/xml
+          text/javascript
+          application/javascript
+          application/x-javascript
+          application/json
+          application/xml
+          application/rss+xml
+          image/svg+xml;
+
+        location ~ \.php$ {
+            fastcgi_param PATH_INFO $fastcgi_path_info;
+            fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            include fastcgi_params;
+            add_header Cache-Control "private, no-cache, no-store, must-revalidate, max-age=0";
+            add_header Pragma "no-cache";
+        }
+    }
+}

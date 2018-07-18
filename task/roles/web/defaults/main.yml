@@ -1,0 +1,131 @@
+---
+fqdn: architrave.local
+
+httpd_docroot: /storage/ArchAssets/public
+httpd_force_ssl: true
+httpd_ssl_enabled: true
+httpd_try_files: $uri $uri/ /index.php?$args
+httpd_index: index.html index.htm index.php
+httpd_client_max_body_size: 150m
+httpd_docroot_protected_files: /storage/clear
+httpd_sendfile: 'on'
+httpd_restrict_health: true
+
+# when set to true, simplesamlphp location is added to nginx and SSO Auth Adapter
+# gets added to ZfcUser config through local.php.
+sso_enabled: false
+
+php_packages:
+  - php7.0-mysql
+  - php7.0-curl
+  - php7.0-intl
+  - php7.0-mcrypt
+  - php7.0-sqlite3
+  - php7.0-imagick
+  - php7.0-apcu
+  - php7.0-apcu-bc
+  - php7.0-xml
+  - php7.0-bcmath
+  - php7.0-mbstring
+  - php7.0-zip
+  - php7.0-soap
+
+php_ini_overrides:
+  - upload_max_filesize=150M
+  - post_max_size=155M
+  - date.timezone=Europe/Berlin
+  - memory_limit=512M
+  - session.cache_limiter=
+  - session.use_strict_mode=1
+  - session.cookie_httponly=1
+  - session.cookie_secure=1
+
+php_fpm_ini_overrides:
+  - display_errors=Off
+  - error_reporting=E_ALL
+
+session_gc_maxlifetime: 1440
+
+# var for setting deferant read timeout other then the nginx default of 30
+var_fastcgi_read_timeout: 180
+
+# var for setting php fpm timeout other then the nginx default of 30
+max_execution_time:
+
+php_cli_ini_overrides:
+  - display_errors=On
+  - error_reporting=E_ALL
+
+httpd_ssl_cert_path: /etc/ssl/certs/architrave.crt
+httpd_ssl_key_path: /etc/ssl/private/architrave.key
+
+httpd_ssl_cert: |
+  -----BEGIN CERTIFICATE-----
+  MIIEvjCCAyagAwIBAgIJAMko50QOluRwMA0GCSqGSIb3DQEBCwUAMGQxCzAJBgNV
+  BAYTAkRFMQ8wDQYDVQQIDAZCZXJsaW4xDzANBgNVBAcMBkJlcmxpbjEYMBYGA1UE
+  CgwPQXJjaGl0cmF2ZSBHbWJIMRkwFwYDVQQDDBBhcmNoaXRyYXZlLmxvY2FsMB4X
+  DTE3MDUxNTE0NTM0MloXDTI3MDUxMzE0NTM0MlowZDELMAkGA1UEBhMCREUxDzAN
+  BgNVBAgMBkJlcmxpbjEPMA0GA1UEBwwGQmVybGluMRgwFgYDVQQKDA9BcmNoaXRy
+  YXZlIEdtYkgxGTAXBgNVBAMMEGFyY2hpdHJhdmUubG9jYWwwggGiMA0GCSqGSIb3
+  DQEBAQUAA4IBjwAwggGKAoIBgQDJ2w+yWeFR3SyA4HBPYUBnikE6tupT6cFnVckW
+  XgsrK/udPDPaXmdVGwlM+ErbaCpkmaL87Hv3Cp21t2/TblctCywj3Uj1scooF3nE
+  Rf9Q0YbBrtHxkIrrI/0PCENGW2dfbh6MXE1XkYrJQ/VNffJjRvoyGUaQRIUT6z8E
+  zVx0WoMWngfHTySMU7S/x2v4/qRZ3X102MdO6cTmF9aUOkmiyENTh5bTT3md35gs
+  YVtqH2XrDGDGudpW1KxSSic6+/pmcqxMkVEIeIPEH1SdODCGf16kdOjltnXKerB8
+  yROUQNXJzjc+CBst2bJZ7KXjxyr7cE6Ayd8sWOMDnfQFlPIh2gXJKOhuu7hDulBK
+  B9EKetrNtar0ITwHcoDpRJ5N3q58epAg609ctiS54nG+FBKdjzwFgAO51b8wWNsz
+  M178lI9qNPMixfp1ZjQlBoI5QBY24kBdIO26Ouon6x73Hd1enSG100OzPvlNQrcO
+  GW/BpvC1fh2RQkjiTqA8CT27yoECAwEAAaNzMHEwIQYDVR0RBBowGIIQYXJjaGl0
+  cmF2ZS5sb2NhbIcECvoACjAdBgNVHQ4EFgQUJmCMB159Jhkged9ZPqs3fkULk2Yw
+  HwYDVR0jBBgwFoAUJmCMB159Jhkged9ZPqs3fkULk2YwDAYDVR0TBAUwAwEB/zAN
+  BgkqhkiG9w0BAQsFAAOCAYEAlKan27bPsv9Et6+Cu/nw+x3c0Gp26iWmQOmgNn42
+  ckGVs/7HF94ub45H9ZCfxdnW25Eo1cWj4EM62O/3vjTi5hfGwieseEZvL+XQle1X
+  U1nTX01BQ+iC+0PVhXeqeva4k4C1QtXTrA2VMuHUr9nOdjL3ny9sk8qWhejLDkMS
+  D5YfOsAmxUa3a9T3Mfh44Mb837FkTdgw6DXG8npVl0DoE+PzdmBcM+kVWMBWVCUm
+  Rd7teiCMUt8LASgcsdn4Lqp98mp5SyZWzFmwH22R1ytw3g9I5GuuKVLYVtledKhq
+  loU0VSQO323V35wLWg6qFQyCxSVFHf1O8VcmXZW8S09ad9qvq3nXx7R12ZDhVel5
+  RqP90rNjBKHTYc2iB8oHv0sG9IMZdcuviaWwyl+NCwjdVXIR3gqsyEMm2rihSUw3
+  pD77T272cbQhgpHNQ3bH13s94JUA5bZIa2ghDzvv08/nRMQE7jp4G9wkyCGcxgqD
+  nQXu5O9PE/hG+c1cCdEx3sND
+  -----END CERTIFICATE-----
+
+httpd_ssl_key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  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
+  -----END RSA PRIVATE KEY-----

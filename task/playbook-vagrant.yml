@@ -1,0 +1,18 @@
+---
+- hosts: default
+  become_user: root
+  become: true
+
+  vars_files:
+    - vars/main.yml
+
+  pre_tasks:
+    - name: "Run system-update tasks"
+      include_tasks: tasks/system-update.yml
+
+  roles:
+    - { role: web, tags: ['web'] }
+    - { role: locale, tags: ['locale'] }
+    - { role: db, tags: ['db'] }
+    - { role: swapfile, when: "swapon.stdout_lines | count == 1", tags: ['swapfile'] }
+

@@ -1,0 +1,103 @@
+---
+- name: "Install Nginx and associated packages"
+  apt:
+    name: nginx
+    state: latest
+
+- name: "Copy NGINX configuration for vhost"
+  template:
+    src: nginx/architrave-vhost.j2
+    dest: /etc/nginx/sites-available/architrave-vhost.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - "Restart nginx"
+  tags:
+    - beats
+
+- name: "Copy NGINX configuration for SSL vhost"
+  template:
+    src: nginx/architrave-vhost-ssl.j2
+    dest: /etc/nginx/sites-available/architrave-vhost-ssl.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - "Restart nginx"
+  tags:
+    - sso
+
+- name: "Copy NGINX configuration for performance logging"
+  template:
+    src: nginx/nginx-custom-logs.conf.j2
+    dest: /etc/nginx/conf.d/nginx-custom-logs.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - "Restart nginx"
+
+- name: "Enable NGINX base vhost"
+  file:
+    src: /etc/nginx/sites-available/architrave-vhost.conf
+    dest: /etc/nginx/sites-enabled/architrave-vhost.conf
+    state: link
+  notify:
+    - "Config test nginx"
+    - "Restart nginx"
+
+- name: "Enable NGINX SSL vhost"
+  file:
+    src: /etc/nginx/sites-available/architrave-vhost-ssl.conf
+    dest: /etc/nginx/sites-enabled/architrave-vhost-ssl.conf
+    state: link
+  notify:
+    - "Config test nginx"
+    - "Restart nginx"
+
+- name: "Disabling NGINX default configuration"
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify:
+    - "Config test nginx"
+    - "Restart nginx"
+
+- name: "Copy over ssl certs"
+  template:
+    src: "nginx/cert.j2"
+    dest: "{{httpd_ssl_cert_path}}"
+    owner: root
+    group: root
+    mode: 0755
+  notify:
+    - "Config test nginx"
+    - "Restart nginx"
+
+- name: "Copy over ssl private key"
+  template:
+    src: "nginx/key.j2"
+    dest: "{{httpd_ssl_key_path}}"
+    owner: root
+    group: root
+    mode: 0400
+  notify:
+    - "Config test nginx"
+    - "Restart nginx"
+
+- name: "Generate DH params"
+  command: openssl dhparam -out dhparams.pem 2048
+  args:
+    chdir: /etc/nginx
+    creates: /etc/nginx/dhparams.pem
+
+- name: "Configure DH params"
+  lineinfile:
+    dest: /etc/nginx/nginx.conf
+    insertafter: 'ssl_prefer_server_ciphers on;'
+    line: '       ssl_dhparam /etc/nginx/dhparams.pem;'
+    state: present
+  notify:
+    - "Config test nginx"
+    - "Restart nginx"

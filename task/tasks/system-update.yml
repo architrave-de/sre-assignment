@@ -1,0 +1,55 @@
+---
+- name: "Add deb dotdeb repo into sources list"
+  apt_repository:
+    repo: 'deb http://packages.dotdeb.org jessie all'
+    state: present
+
+- name: "Add deb-src dotdeb repo into sources list"
+  apt_repository:
+    repo: 'deb-src http://packages.dotdeb.org jessie all'
+    state: present
+
+- name: "Add dotdeb repo key"
+  apt_key:
+    url: http://www.dotdeb.org/dotdeb.gpg
+    state: present
+
+- name: "Add deb debian.org repo into sources list"
+  apt_repository:
+    repo: 'deb http://ftp.de.debian.org/debian jessie-backports main'
+    state: present
+
+- name: "Add deb-src debian.org repo into sources list"
+  apt_repository:
+    repo: 'deb-src http://ftp.de.debian.org/debian jessie-backports main'
+    state: present
+
+- name: "Add debian.org repo key"
+  apt_key:
+    keyserver: hkp://pool.sks-keyservers.net:80
+    id: 8C718D3B5072E1F5
+
+- name: "Copy mysql source list file"
+  copy:
+    src: ../files/mysql.list
+    dest: /etc/apt/sources.list.d/
+    mode: 0644
+
+- name: "FIX: Debian Jessie doesn't come with certain modules, required by ansible"
+  raw: apt-get install python-minimal aptitude -y
+
+- name: "Update the server via apt-get"
+  apt:
+    update_cache: "yes"
+
+- name: "Install third party deps"
+  apt:
+    name: "{{item}}"
+    state: latest
+  with_items:
+    - "{{server_packages}}"
+
+- name: "Check swap setup"
+  command: swapon -s
+  tags: swapfile
+  register: swapon

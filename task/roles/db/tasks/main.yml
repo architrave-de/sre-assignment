@@ -1,0 +1,79 @@
+---
+# Install & Configure MySQL server
+
+- name: "Install mysql server"
+  apt:
+    update_cache: "yes"
+    cache_valid_time: 3600
+    pkg: "{{ item }}"
+    state: present                                    #  won't update if done under an hour ago
+    autoremove: "yes"
+  with_items:
+  - mysql-community-server
+  - python-mysqldb                                    # required for ansible to interface with database
+
+- name: "Add a root user with password local (default host: localhost)"
+  mysql_user:
+    name: root
+    password: "{{ db_root_password }}"
+    priv: "*.*:ALL,GRANT"
+    state: present
+
+- setup:
+    filter: ansible_memtotal_mb
+
+# Push a custom global mysql configuration
+- name: "Configure my.cnf"
+  template:
+    src: mysql/my.cnf.j2
+    dest: /etc/mysql/my.cnf
+    owner: root
+    group: root
+    mode: 644
+  notify:
+    - "Restart mysql"
+
+# Custom tunable overrides
+- name: "Custom tunables"
+  template:
+    src: mysql/assignment.cnf.j2
+    dest: /etc/mysql/conf.d/assignment.cnf
+    owner: root
+    group: root
+    mode: 644
+  when: db_tunables|count
+  notify:
+    - "Restart mysql"
+
+# Passwordless access to mysql root user by unix root user
+- name: "Configure .my.cnf"
+  template:
+    src: mysql/_my.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 400
+
+- name: "Create a new database with name '{{ db_name }}' "
+  mysql_db:
+    name: "{{ db_name }}"
+    state: present
+
+- name: "Add a {{ db_user }} user with password local (default host: localhost)"
+  mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+    priv: "{{ db_name }}.*:ALL"
+    state: present
+
+- name: "Add user with read-access only"
+  mysql_user:
+    name: "{{ db_read_user }}"
+    password: "{{ db_read_user_password }}"
+    priv: "{{ db_name }}.*:SELECT,LOCK TABLES/*.*:PROCESS"
+    state: present
+
+- name: "Remove mysql test database"
+  mysql_db:
+    db: test
+    state: absent

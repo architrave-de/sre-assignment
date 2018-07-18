@@ -1,0 +1,10 @@
+---
+- name: "NGINX"
+  import_tasks: nginx.yml
+  tags:
+    - nginx
+
+- name: "PHP"
+  import_tasks: php.yml
+  tags:
+    - php

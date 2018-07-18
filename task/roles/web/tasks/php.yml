@@ -1,0 +1,71 @@
+---
+- name: "Install PHP and associated packages"
+  apt:
+    name: php7.0-fpm
+    state: latest
+
+- name: "Install PHP and associated packages"
+  apt:
+    name: php7.0-cli
+    state: latest
+
+- name: "Install PHP extensions"
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{php_packages}}"
+
+# Debian's session cleanup cron only adheres to
+# /etc/php/7.0/fpm/php.ini settings, so we need to use that for the session timeout
+- name: "Configure php7.0-fpm session timeout"
+  replace:
+    dest: /etc/php/7.0/fpm/php.ini
+    regexp: '^\s*session.gc_maxlifetime\s*=\s*\d*$'
+    replace: 'session.gc_maxlifetime = {{ session_gc_maxlifetime }}'
+    backup: "yes"
+  notify:
+    - "Restart php-fpm"
+
+- name: "Configure php-fpm max execution time"
+  replace:
+    dest: /etc/php/7.0/fpm/php.ini
+    regexp: '^\s*max_execution_time\s*=\s*\d*\s*$'
+    replace: 'max_execution_time = {{ max_execution_time }}'
+    backup: "yes"
+  when: max_execution_time is defined and not (max_execution_time is none)
+  notify:
+    - "Restart php-fpm"
+
+- name: "Configure php.ini overrides for fpm"
+  template:
+    src: php/php-fpm.j2
+    dest: /etc/php/7.0/fpm/conf.d/99-architrave.ini
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - "Restart php-fpm"
+
+- name: "Configure php.ini overrides for cli"
+  template:
+    src: php/php-cli.j2
+    dest: /etc/php/7.0/cli/conf.d/99-architrave.ini
+    owner: root
+    group: root
+    mode: 0644
+
+- name: "Enable status page"
+  lineinfile:
+    path: /etc/php/7.0/fpm/pool.d/www.conf
+    regexp: "^;pm.status_path"
+    line: pm.status_path = /status
+  notify:
+    - "Restart php-fpm"
+
+- name: "Copy index.php"
+  template:
+    src: index.php.j2
+    dest: /var/www/index.php
+    owner: root
+    group: root
+    mode: 0644
