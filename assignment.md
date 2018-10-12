@@ -38,3 +38,13 @@ To access the instance via http/s use `http://architrave.local`
 ### Part 2: Docker
 7. Create a new folder `docker` at the root of the repository
 8. Migrate the code to docker using micro-services architecture, all the files should be stored inside the `docker` folder.
+
+### Part 3: Questions
+
+9. What elements are missing to make this a 'production' ready system? Please list them in
+   order of priority and add a short explanation.
+
+### Part 4: Kubernetes
+
+10. What steps are needed to run the system on kubernetes? Please add a concise
+    description of involved steps. If time allows, start implementing it.
