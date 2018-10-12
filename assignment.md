@@ -22,14 +22,14 @@ The task is built to be run in vagrant using VirtualBox or Parallels but you can
 2. cd sre-assignment folder
 3. run `vagrant up --provision`
 
-To re-run the provisioner, run `vagrant provision` 
+To re-run the provisioner, run `vagrant provision`
 
 To access the instance via http/s use `http://architrave.local`
 
 ## Tasks
 ### Part 1: Ansible and basic Linux concepts
-1. Provisioning of the playbook is broken, you should fix it in order to move forword when everything is working you should get `Ìnstance provisioned successfully` message. Take into account all aspects of the code
-2. The system as it is allow all traffic to the server, create a role to limit access to the server via ports 80, 443 & 22 using iptables
+1. Provisioning of the playbook is broken, you should fix it in order to move forward when everything is working you should get `Ìnstance provisioned successfully` message. Take into account all aspects of the code
+2. The system as it is allows all traffic to the server, create a role to limit access to the server via ports 80, 443 & 22 using iptables
 3. Add http redirection so all traffic will be served via https
 4. Make sure the client is not receiving the Nginx version as part of the http headers
 5. Create user `testuser` with password `qweRTZ123`
