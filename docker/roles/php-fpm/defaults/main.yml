@@ -1,9 +1,4 @@
 ---
-db_root_password: local
-db_host: db_host
-db_name: assignment
-db_user: assignment
-db_password: local
 # when set to true, simplesamlphp location is added to nginx and SSO Auth Adapter
 # gets added to ZfcUser config through local.php.
 sso_enabled: false

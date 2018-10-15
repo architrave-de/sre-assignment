@@ -45,11 +45,3 @@
     owner: root
     group: root
     mode: 0644
-
-- name: "Copy index.php"
-  template:
-    src: index.php.j2
-    dest: /var/www/index.php
-    owner: root
-    group: root
-    mode: 0644

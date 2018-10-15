@@ -73,10 +73,5 @@
       gzip on;
       gzip_disable "msie6";
 
-- name: Create folder www
-  file:
-    path: /var/www
-    state: directory
-    mode: 0644
 
 

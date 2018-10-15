@@ -10,6 +10,7 @@ services:
     container_name: web-architrave
     roles:
       - web
+      - files
     ports:
       - 80:80
       - 443:443
@@ -22,6 +23,7 @@ services:
     container_name: php-architrave
     roles:
       - php-fpm
+      - files
     command: /usr/local/sbin/php-fpm
     links:
       - db:db_host

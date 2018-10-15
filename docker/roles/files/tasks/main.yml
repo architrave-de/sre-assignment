@@ -1,0 +1,15 @@
+---
+# tasks file for roles/files
+- name: Create folder www
+  file:
+    path: /var/www
+    state: directory
+    mode: 0755
+
+- name: "Copy index.php"
+  template:
+    src: index.php.j2
+    dest: /var/www/index.php
+    owner: root
+    group: root
+    mode: 0755

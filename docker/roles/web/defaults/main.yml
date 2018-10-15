@@ -1,10 +1,4 @@
 ---
-db_root_password: local
-db_host: db_host
-db_name: assignment
-db_user: assignment
-db_password: local
-
 fqdn: architrave.local
 
 httpd_docroot: /storage/ArchAssets/public
