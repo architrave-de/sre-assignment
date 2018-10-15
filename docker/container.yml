@@ -1,0 +1,34 @@
+version: "2"
+settings:
+  conductor_base: alpine:latest
+  project_name: docker
+  vars_files:
+    - vars/main.yml
+services:
+  web:
+    from: nginx:alpine
+    container_name: web-architrave
+    roles:
+      - web
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - php-fpm:php-fpm_host
+      - db:db_host
+    command: /usr/sbin/nginx -c /etc/nginx/nginx.conf -g "daemon off;"
+  php-fpm:
+    from: php:7-fpm-alpine
+    container_name: php-architrave
+    roles:
+      - php-fpm
+    command: /usr/local/sbin/php-fpm
+    links:
+      - db:db_host
+  db:
+    from: alpine:latest
+    container_name: db-architrave
+    roles:
+      - db
+    command: /usr/bin/mysqld --user=mysql --console
+

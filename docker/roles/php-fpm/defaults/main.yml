@@ -1,0 +1,65 @@
+---
+db_root_password: local
+db_host: db_host
+db_name: assignment
+db_user: assignment
+db_password: local
+# when set to true, simplesamlphp location is added to nginx and SSO Auth Adapter
+# gets added to ZfcUser config through local.php.
+sso_enabled: false
+
+php_dependencies:
+  - "freetype-dev"
+  - "icu-dev"
+  - "libxml2-dev"
+  - "imagemagick-dev"
+  - "libjpeg-turbo-dev"
+  - "libmcrypt-dev"
+  - "libzip-dev"
+  - "libpng-dev"
+  - "curl-dev"
+  - "autoconf"
+  - "g++"
+  - "libmcrypt-dev"
+  - "make"
+
+ext_install_php_packages:
+  - mysqli
+  - curl
+  - mbstring
+  - intl
+  - zip
+  - xml
+  - bcmath
+  - soap
+
+pecl_install_php_packages:
+  - "channel://pecl.php.net/mcrypt-1.0.1"
+  - "pecl/imagick"
+  - "pecl/apcu"
+  - "pecl/apcu_bc"
+
+enable_packages:
+  - mcrypt
+  - imagick
+  - apcu
+
+php_ini_overrides:
+  - upload_max_filesize=150M
+  - post_max_size=155M
+  - date.timezone=Europe/Berlin
+  - memory_limit=512M
+  - session.cache_limiter=
+  - session.use_strict_mode=1
+  - session.cookie_httponly=1
+  - session.cookie_secure=1
+  - var_fastcgi_read_timeout=180
+  - session_gc_maxlifetime=1440
+
+php_fpm_ini_overrides:
+  - display_errors=Off
+  - error_reporting=E_ALL
+
+php_cli_ini_overrides:
+  - display_errors=On
+  - error_reporting=E_ALL

@@ -17,10 +17,11 @@ $ vagrant up
 - docker
 - ansible-container
 
-$ virtualenv venv
+$ virtualenv --python=python3.6 venv
 $ source venv/bin/activate
-$ pip install --force-reinstall pip==9.0.3
-$ pip install ansible ansible-container[docker]
+$ pip install -r ansible-requirements.txt
+$ ansible-container build 
+$ ansible-container run 
 
 ### Part 3: Questions
 
