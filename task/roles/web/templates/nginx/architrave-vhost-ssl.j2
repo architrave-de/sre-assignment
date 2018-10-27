@@ -17,7 +17,7 @@ server {
     sendfile {{ httpd_sendfile }};
 
     location / {
-        root /var/www/;
+        root /var/secure;
         try_files {{ httpd_try_files }};
         index  {{ httpd_index }};
         client_max_body_size {{ httpd_client_max_body_size }};

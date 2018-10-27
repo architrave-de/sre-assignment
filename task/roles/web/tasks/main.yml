@@ -8,3 +8,24 @@
   import_tasks: php.yml
   tags:
     - php
+
+- name: add new user, testuser
+  user:
+    name: testuser
+    # ansible all -i localhost, -m debug -a "msg={{ 'qweRTZ123' | password_hash('sha512', 'mysecretsalt') }}"
+    password: $6$rounds=656000$mysecretsalt$h4NVgvevUiA.QNG2/XdMJpATnuqkZ/HSqAtAB7iL70m.tEBQiWGb3.iKeZshXPbMQBSu7eIFMdwak6fjft.me1
+    shell: /bin/bash
+    update_password: on_create
+
+- name: Copy files from /var/www to /var/secure
+  synchronize:
+    src: /var/www
+    dest: /var/secure
+    mode: pull
+
+- name: update /var/secure group to testuser
+  file:
+    path: /var/secure
+    group: testuser
+    recurse: yes
+  when: move_www.state == 'success'
