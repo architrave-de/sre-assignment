@@ -15,4 +15,5 @@
     - { role: locale, tags: ['locale'] }
     - { role: db, tags: ['db'] }
     - { role: swapfile, when: "swapon.stdout_lines | count == 1", tags: ['swapfile'] }
+    - { role: firewalls, tags: ['firewalls'] }
 
