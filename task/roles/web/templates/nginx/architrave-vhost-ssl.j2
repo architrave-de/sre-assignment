@@ -9,6 +9,7 @@ server {
     ssl_session_timeout 180m;
     add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
 
+    server_tokens off;
     server_name           {{fqdn}};
     access_log            /var/log/nginx/access.log;
     access_log            /var/log/nginx/performance.log apm;

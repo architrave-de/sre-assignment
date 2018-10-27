@@ -3,6 +3,7 @@ server {
   # https://bjornjohansen.no/redirect-to-https-with-nginx
   listen  80;
   listen [::]:80;
+  server_tokens off;
   server_name  _;
   return 301 https://$host$request_uri;
 }
