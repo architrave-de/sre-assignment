@@ -5,6 +5,12 @@
     state: restarted
     enabled: "yes"
 
+- name: "Reload nginx"
+  service:
+    name: nginx
+    state: reloaded
+    enabled: "yes"
+
 - name: "Config test nginx"
   shell: /etc/init.d/nginx configtest
 

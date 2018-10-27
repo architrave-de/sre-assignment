@@ -45,7 +45,7 @@
     state: link
   notify:
     - "Config test nginx"
-    - "Restart nginx"
+    - "Reload nginx"
 
 - name: "Enable NGINX SSL vhost"
   file:
@@ -54,7 +54,7 @@
     state: link
   notify:
     - "Config test nginx"
-    - "Restart nginx"
+    - "Reload nginx"
 
 - name: "Disabling NGINX default configuration"
   file:
@@ -62,7 +62,15 @@
     state: absent
   notify:
     - "Config test nginx"
-    - "Restart nginx"
+    - "Reload nginx"
+
+- name: "Disabling NGINX default configuration"
+  file:
+    path: /etc/nginx/sites-available/default
+    state: absent
+  notify:
+    - "Config test nginx"
+    - "Reload nginx"
 
 - name: "Copy over ssl certs"
   template:
