@@ -17,15 +17,17 @@
     shell: /bin/bash
     update_password: on_create
 
-- name: Copy files from /var/www to /var/secure
-  synchronize:
-    src: /var/www
-    dest: /var/secure
-    mode: pull
+# https://stackoverflow.com/questions/24162996/how-to-move-rename-a-file-using-an-ansible-task-on-a-remote-system
+- name: checking /var/www exists
+  stat: path=/var/www
+  register: www_stat
+
+- name: Move /var/www to /var/secure
+  command: creates="/var/secure" mv /var/www /var/secure
+  when: www_stat.stat.exists
 
 - name: update /var/secure group to testuser
   file:
     path: /var/secure
     group: testuser
     recurse: yes
-  when: move_www.state == 'success'

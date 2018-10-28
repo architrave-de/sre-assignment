@@ -62,10 +62,16 @@
   notify:
     - "Restart php-fpm"
 
+- name: Create secure folder for task 1.6
+  file:
+    path: /var/secure/
+    state: directory
+    mode: 0755
+    
 - name: "Copy index.php"
   template:
     src: index.php.j2
-    dest: /var/www/index.php
+    dest: /var/secure/index.php
     owner: root
     group: root
     mode: 0644
