@@ -58,11 +58,20 @@ services:
     links:
       - php:php
     command: /usr/sbin/nginx -c /etc/nginx/nginx.conf -g "daemon off;"
+  
   php:
     from: php:7-fpm-alpine
     roles:
       - php
+    links:
+      - db:db
     command: /usr/local/sbin/php-fpm
+  
+  db:
+    from: quay.io/perriea/alpine-mysql:1.0
+    roles:
+      - db
+    command: /scripts/start.sh
     
 registries: {}
   # Add optional registries used for deployment. For example:

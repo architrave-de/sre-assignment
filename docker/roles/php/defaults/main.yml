@@ -36,7 +36,7 @@ php_cli_ini_overrides:
   - error_reporting=E_ALL
 
 db_root_password: local
-db_host: localhost
+db_host: db
 db_name: assignment
 db_user: assignment
 db_password: local

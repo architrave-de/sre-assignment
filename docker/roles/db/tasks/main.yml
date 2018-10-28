@@ -1,0 +1,68 @@
+---
+# Install & Configure MySQL server
+- name: "Install mysql client"
+  apk:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present
+  with_items:
+  - mysql-client
+
+- setup:
+    filter: ansible_memtotal_mb
+
+# Create mysql config folder
+- name: Create folders
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: mysql
+    group: mysql
+  with_items:
+    - /etc/mysql/conf.d
+
+    
+# Push a custom global mysql configuration
+- name: "Configure my.cnf"
+  template:
+    src: mysql/my.cnf.j2
+    dest: /etc/mysql/my.cnf
+    owner: root
+    group: root
+    mode: 644
+
+# Custom tunable overrides
+- name: "Custom tunables"
+  template:
+    src: mysql/assignment.cnf.j2
+    dest: /etc/mysql/conf.d/assignment.cnf
+    owner: root
+    group: root
+    mode: 644
+  when: db_tunables|count
+
+
+# Passwordless access to mysql root user by unix root user
+- name: "Configure .my.cnf"
+  template:
+    src: mysql/_my.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 400
+
+# update mysql by bash script due to missing mysql-python framework in cinductor
+- name: initialize DB
+  command: mysql_install_db --user=mysql --datadir=/var/lib/mysql
+
+- name: install init db script
+  template:
+    src: init_db.j2
+    dest: /root/init.db.sh
+    owner: root
+    group: root
+    mode: 0755
+
+- name: update database
+  command: /root/init.db.sh

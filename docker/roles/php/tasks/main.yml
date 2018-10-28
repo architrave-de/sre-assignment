@@ -1,15 +1,4 @@
 ---
-#- name: "Install PHP and associated packages"
-#  apt:
-#    name: php7.0-cli
-#    state: latest
-#
-#- name: "Install PHP extensions"
-#  apt:
-#    name: "{{ item }}"
-#    state: latest
-#  with_items: "{{php_packages}}"
-
 # Debian's session cleanup cron only adheres to
 # /etc/php/7.0/fpm/php.ini settings, so we need to use that for the session timeout
 #- name: "Configure php7.0-fpm session timeout"

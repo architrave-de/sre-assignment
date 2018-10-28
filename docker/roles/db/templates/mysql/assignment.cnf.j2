@@ -1,0 +1,4 @@
+[mysqld]
+{% for item in db_tunables %}
+{{ item }}
+{% endfor %}
