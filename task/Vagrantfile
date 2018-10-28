@@ -4,6 +4,7 @@ Vagrant.configure("2") do |config|
     config.ssh.forward_agent = true
     config.ssh.forward_x11 = false
     config.vagrant.host = :detect
+    config.vm.synced_folder '.', '/vagrant', disabled: true
 
     config.vm.define "default", primary: true do |default|
         default.ssh.username = "vagrant"
@@ -13,9 +14,9 @@ Vagrant.configure("2") do |config|
         default.vm.network :private_network, ip: "10.250.0.10"
 
         default.vm.provider :virtualbox do |virtualbox|
-            virtualbox.customize ["modifyvm", :id, "--name", "architrave"]
-            virtualbox.customize ["setextradata", :id,
-                    "--VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+            virtualbox.memory = 2048
+            virtualbox.cpus = 2
+            virtualbox.name = "architrave"
         end
 
         default.vm.provider :parallels do |parallels, override|
