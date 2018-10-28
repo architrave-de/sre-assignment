@@ -1,0 +1,33 @@
+---
+- name: "NGINX"
+  import_tasks: nginx.yml
+  tags:
+    - nginx
+
+      #- name: "PHP"
+      #  import_tasks: php.yml
+      #  tags:
+      #    - php
+
+      #- name: add new user, testuser
+      #  user:
+      #    name: testuser
+      #    # ansible all -i localhost, -m debug -a "msg={{ 'qweRTZ123' | password_hash('sha512', 'mysecretsalt') }}"
+      #    password: $6$rounds=656000$mysecretsalt$h4NVgvevUiA.QNG2/XdMJpATnuqkZ/HSqAtAB7iL70m.tEBQiWGb3.iKeZshXPbMQBSu7eIFMdwak6fjft.me1
+      #    shell: /bin/bash
+      #    update_password: on_create
+
+# https://stackoverflow.com/questions/24162996/how-to-move-rename-a-file-using-an-ansible-task-on-a-remote-system
+- name: checking /var/www exists
+  stat: path=/var/www
+  register: www_stat
+
+  #- name: Move /var/www to /var/secure
+  #  command: creates="/var/secure" mv /var/www /var/secure
+  #  when: www_stat.stat.exists
+  #
+  #- name: update /var/secure group to testuser
+  #  file:
+  #    path: /var/secure
+  #    group: testuser
+  #    recurse: yes

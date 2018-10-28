@@ -3,7 +3,7 @@ backports.ssl-match-hostname==3.5.0.1
 certifi==2018.10.15
 chardet==3.0.4
 colorama==0.4.0
-docker==3.5.1
+docker==2.7.0
 docker-pycreds==0.3.0
 idna==2.7
 ipaddress==1.0.22

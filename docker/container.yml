@@ -5,14 +5,14 @@ settings:
     # The Conductor container does the heavy lifting, and provides a portable
     # Python runtime for building your target containers. It should be derived
     # from the same distribution as you're building your target containers with.
-    base: alpine:3.8
+    base: alpine:3.5
     # roles_path:   # Specify a local path containing Ansible roles
     # volumes:      # Provide a list of volumes to mount
     # environment:  # List or mapping of environment variables
 
   # Set the name of the project. Defaults to basename of the project directory.
   # For built services, concatenated with service name to form the built image name.
-  project_name: docker
+  project_name: architrave
 
   # The deployment_output_path is mounted to the Conductor container, and the 
   # `run` and `deployment` commands then write generated Ansible playbooks to it.
@@ -47,19 +47,15 @@ settings:
   #  description:
   #  display_name:
 
-services: {}
-  # Add your containers here, specifying the base image you want to build from.
-  # To use this example, uncomment it and delete the curly braces after services key.
-  # You may need to run `docker pull ubuntu:trusty` for this to work.
-
-  # web:
-  #   from: "centos:7"
-  #   ports:
-  #     - "80:80"
-  #   command: ["/usr/bin/dumb-init", "/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
-  #   dev_overrides:
-  #     environment:
-  #       - "DEBUG=1"
+services:
+  web:
+    from: nginx:alpine
+    roles:
+      - web
+    ports:
+      - 80:80
+      - 443:443
+    command: /usr/sbin/nginx -c /etc/nginx/nginx.conf -g "daemon off;"
 registries: {}
   # Add optional registries used for deployment. For example:
   #  google:
