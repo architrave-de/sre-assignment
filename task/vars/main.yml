@@ -9,6 +9,8 @@ server_packages:
   - libnss3
   - libopenjp2-7
   - ca-certificates
+  - iptables-persistent   # iptables persistence
+
 
 httpd_sendfile: 'off'
 httpd_docroot_protected_files: /storage/data
@@ -25,7 +27,7 @@ php_ini_overrides:
   - session.use_strict_mode=1
   - session.cookie_httponly=1
   - session.cookie_secure=1
-  
+
 php_fpm_ini_overrides:
   - display_errors=On
   - error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
