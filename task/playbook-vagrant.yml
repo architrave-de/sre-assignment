@@ -5,6 +5,7 @@
 
   vars_files:
     - vars/main.yml
+    - vars/vault.yml
 
   pre_tasks:
     - name: "Run system-update tasks"
