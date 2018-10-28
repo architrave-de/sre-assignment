@@ -101,3 +101,12 @@
   notify:
     - "Config test nginx"
     - "Restart nginx"
+
+- name: Remove NGINX version Header
+  replace:
+    path: /etc/nginx/nginx.conf
+    regexp: "# server_tokens off;"
+    replace: "server_tokens off;"
+  notify:
+    - "Config test nginx"
+    - "Restart nginx"
