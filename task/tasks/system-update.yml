@@ -40,7 +40,7 @@
 
 - name: "Update the server via apt-get"
   apt:
-    update_cache: "yes"
+    update_cache: yes
 
 - name: "Install third party deps"
   apt:
