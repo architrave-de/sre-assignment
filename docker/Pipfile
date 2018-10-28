@@ -18,6 +18,7 @@ structlog = "==18.2.0"
 "Jinja2" = "==2.10"
 MarkupSafe = "==1.0"
 PyYAML = "==3.13"
+docker = "*"
 
 [dev-packages]
 
