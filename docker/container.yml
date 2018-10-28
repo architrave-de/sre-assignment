@@ -55,7 +55,15 @@ services:
     ports:
       - 80:80
       - 443:443
+    links:
+      - php:php
     command: /usr/sbin/nginx -c /etc/nginx/nginx.conf -g "daemon off;"
+  php:
+    from: php:7-fpm-alpine
+    roles:
+      - php
+    command: /usr/local/sbin/php-fpm
+    
 registries: {}
   # Add optional registries used for deployment. For example:
   #  google:

@@ -1,0 +1,45 @@
+# when set to true, simplesamlphp location is added to nginx and SSO Auth Adapter
+# gets added to ZfcUser config through local.php.
+sso_enabled: false
+
+php_packages:
+  - php7.0-mysql
+  - php7.0-curl
+  - php7.0-intl
+  - php7.0-mcrypt
+  - php7.0-sqlite3
+  - php7.0-imagick
+  - php7.0-apcu
+  - php7.0-apcu-bc
+  - php7.0-xml
+  - php7.0-bcmath
+  - php7.0-mbstring
+  - php7.0-zip
+  - php7.0-soap
+
+php_ini_overrides:
+  - upload_max_filesize=150M
+  - post_max_size=155M
+  - date.timezone=Europe/Berlin
+  - memory_limit=512M
+  - session.cache_limiter=
+  - session.use_strict_mode=1
+  - session.cookie_httponly=1
+  - session.cookie_secure=1
+
+php_fpm_ini_overrides:
+  - display_errors=Off
+  - error_reporting=E_ALL
+
+php_cli_ini_overrides:
+  - display_errors=On
+  - error_reporting=E_ALL
+
+db_root_password: local
+db_host: localhost
+db_name: assignment
+db_user: assignment
+db_password: local
+
+db_read_user: assignment-read
+db_read_user_password: local2
