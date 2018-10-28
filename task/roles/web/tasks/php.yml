@@ -62,10 +62,34 @@
   notify:
     - "Restart php-fpm"
 
+- name: "Create {{ web_user }} directory"
+  file:
+    path: "{{ web_user_path }}"
+    state: directory
+    owner: "{{ web_user }}"
+    group: "{{ web_group }}"
+    mode: 0750
+
 - name: "Copy index.php"
   template:
     src: index.php.j2
-    dest: /var/www/index.php
-    owner: root
-    group: root
-    mode: 0644
+    dest: "{{ web_user_path }}/index.php"
+    owner: "{{ web_user }}"
+    group: "{{ web_group }}"
+    mode: 0650
+
+- name: "Change pool user"
+  replace:
+    path: /etc/php/7.0/fpm/pool.d/www.conf
+    regexp: 'user = www-data'
+    replace: 'user = {{ web_user }}'
+  notify:
+    - "Restart php-fpm"
+
+- name: "Change pool group"
+  replace:
+    path: /etc/php/7.0/fpm/pool.d/www.conf
+    regexp: 'group = www-data'
+    replace: 'group = {{ web_group }}'
+  notify:
+    - "Restart php-fpm"
