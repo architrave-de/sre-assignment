@@ -60,7 +60,7 @@ services:
     command: /usr/sbin/nginx -c /etc/nginx/nginx.conf -g "daemon off;"
   
   php:
-    from: php:7-fpm-alpine
+    from: php:7.2-fpm-alpine3.7
     roles:
       - php
     links:

@@ -3,19 +3,12 @@
 sso_enabled: false
 
 php_packages:
-  - php7.0-mysql
-  - php7.0-curl
-  - php7.0-intl
-  - php7.0-mcrypt
-  - php7.0-sqlite3
-  - php7.0-imagick
-  - php7.0-apcu
-  - php7.0-apcu-bc
-  - php7.0-xml
-  - php7.0-bcmath
-  - php7.0-mbstring
-  - php7.0-zip
-  - php7.0-soap
+  - php7-mysqlnd
+  - php7-mysqli
+
+ext_install_php_packages:
+  - mysqli
+  - pdo_mysql
 
 php_ini_overrides:
   - upload_max_filesize=150M
