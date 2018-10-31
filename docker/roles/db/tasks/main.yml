@@ -21,6 +21,7 @@
     group: mysql
   with_items:
     - /etc/mysql/conf.d
+    - /var/log/mysql
 
     
 # Push a custom global mysql configuration
@@ -51,18 +52,3 @@
     owner: root
     group: root
     mode: 400
-
-# update mysql by bash script due to missing mysql-python framework in cinductor
-- name: initialize DB
-  command: mysql_install_db --user=mysql --datadir=/var/lib/mysql
-
-- name: install init db script
-  template:
-    src: init_db.j2
-    dest: /root/init.db.sh
-    owner: root
-    group: root
-    mode: 0755
-
-- name: update database
-  command: /root/init.db.sh

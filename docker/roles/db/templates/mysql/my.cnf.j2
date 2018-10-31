@@ -44,17 +44,17 @@ skip-external-locking
 #
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
-bind-address        = 127.0.0.1
+bind-address        = 0.0.0.0
 #
 # * Fine Tuning
 #
-key_buffer      = 16M
+key_buffer_size      = 16M
 max_allowed_packet  = 16M
 thread_stack        = 192K
 thread_cache_size       = 8
 # This replaces the startup script and checks MyISAM tables if needed
 # the first time they are touched
-myisam-recover         = BACKUP
+myisam-recover-options  = BACKUP
 #max_connections        = 100
 #table_cache            = 64
 #thread_concurrency     = 10
@@ -118,7 +118,7 @@ max_allowed_packet  = 16M
 #no-auto-rehash # faster start of mysql but no tab completition
 
 [isamchk]
-key_buffer      = 16M
+key_buffer_size      = 16M
 
 #
 # * IMPORTANT: Additional settings that can override those from this file!

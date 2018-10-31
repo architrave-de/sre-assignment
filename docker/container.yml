@@ -72,7 +72,16 @@ services:
     roles:
       - db
     command: /scripts/start.sh
-    
+    # https://docs.ansible.com/ansible-container/container_yml/template.html
+    dev_overrides:
+      environment:
+        MYSQL_ROOT_PASSWORD: "{{ db_root_password }}"
+        MYSQL_DATABASE: "{{ db_name }}"
+        MYSQL_USER_MONITORING: "{{ db_read_user }}"
+        MYSQL_PASSWORD_MONITORING: "{{ db_read_user_password }}"
+        MYSQL_USER: "{{ db_user }}"
+        MYSQL_PASSWORD: "{{ db_password }}"
+
 registries: {}
   # Add optional registries used for deployment. For example:
   #  google:

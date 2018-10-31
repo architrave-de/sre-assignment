@@ -20,7 +20,7 @@ server {
     sendfile {{ httpd_sendfile }};
 
     location / {
-        root /var/secure;
+        root {{ httpd_root }};
         try_files {{ httpd_try_files }};
         index  {{ httpd_index }};
         client_max_body_size {{ httpd_client_max_body_size }};
