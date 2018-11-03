@@ -1,0 +1,51 @@
+version: '3.3'
+services:
+  web:
+    container_name: architrave-web
+    image: architrave-web:latest
+    env_file:
+      - .env
+    build:
+      context: architrave-web
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    volumes:
+      - ./architrave-web/architrave-vhost.conf:/etc/nginx/conf.d/architrave-vhost.conf
+#      - ./architrave-web/nginx-custom-logs.conf:/etc/nginx/conf.d/nginx-custom-logs.conf
+      - ./architrave-web/architrave-vhost-ssl.template:/tmp/templates/architrave-vhost-ssl.template
+      - ./architrave-web/cert.template:/etc/ssl/certs/architrave.crt
+      - ./architrave-web/key.template:/etc/ssl/private/architrave.key
+      - ./architrave-web/setup-templates.sh:/setup-templates.sh
+      - ./www/index.php.template:/tmp/templates/index.php.template
+      - ./architrave-web/99-architrave.ini:/etc/php/7.0/fpm/conf.d/99-architrave.ini
+      - ./architrave-web/99-architrave.ini:/etc/php/7.0/cli/conf.d/99-architrave.ini
+      - ./architrave-web/www.conf:/etc/php/7.0/cli/conf.d/99-architrave.ini
+    command: /bin/bash -c "/setup-templates.sh && exec nginx -g 'daemon off;'"
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - internal_network
+  db:
+    container_name: architrave-db
+    image: architrave-db:latest
+    env_file:
+      - .env
+    build:
+      context: architrave-db
+      dockerfile: Dockerfile
+      args:
+         MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+         MYSQL_USER: ${MYSQL_USER}
+         MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+         MYSQL_DATABASE: ${MYSQL_DATABASE}
+         DB_READ_USER: ${DB_READ_USER}
+         DB_READ_USER_PASSWORD: ${DB_READ_USER_PASSWORD}
+    networks:
+      - internal_network
+    command: mysqld --character-set-server=utf8mb4
+
+networks:
+   internal_network:
+        driver: bridge

@@ -1,0 +1,7 @@
+FROM mysql:5.7
+
+ARG DB_READ_USER
+ARG DB_READ_USER_PASSWORD
+ARG MYSQL_DATABASE
+
+RUN echo "CREATE USER '${DB_READ_USER}'@'localhost' IDENTIFIED BY '${DB_READ_USER_PASSWORD}';\nGRANT SELECT,LOCK TABLES ON ${MYSQL_DATABASE}.* TO '${DB_READ_USER}'@'localhost';" > /docker-entrypoint-initdb.d/db_setup.sql
