@@ -10,9 +10,11 @@
 * Updating the apt-key server from *pool.sks-keyservers.net* to *pgpkeys.mit.edu* due to original server didn't reply.
 
 ## Part 2.
-* Fix python version on 2.7 and pip version should be 0.9.3 due to leak of ansible-container dependency.
+* Pre-requirements, docker, ansible-container
+* Fix python version on 2.7 and pip version should be 9.0.3 due to leak of ansible-container dependency.
 * Split original project into 3 tiers design, nginx, php and db.
 * Using environment variables to init our db schema.
+* Building images from ```$ansible-container build```, running container with ```$ansible-container run```.
 
 ## Part 3.
 1. Database volumn is missing. We need consider mount the data folder into localhost or persistent disk on GCP or AWS.
