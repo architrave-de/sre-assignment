@@ -15,6 +15,7 @@
 * Split original project into 3 tiers design, nginx, php and db.
 * Using environment variables to init our db schema.
 * Building images from ```$ansible-container build```, running container with ```$ansible-container run```.
+* [Demo record](https://asciinema.org/a/PBc9cUDo0AuUexZyjDSrITHoy)
 
 ## Part 3.
 1. Database volumn is missing. We need consider mount the data folder into localhost or persistent disk on GCP or AWS.
