@@ -82,8 +82,7 @@ services:
         MYSQL_USER: "{{ db_user }}"
         MYSQL_PASSWORD: "{{ db_password }}"
 
-registries: {}
-  # Add optional registries used for deployment. For example:
-  #  google:
-  #    url: https://gcr.io
-  #    namespace: my-cool-project-xxxxxx   
+registries:
+  docker:
+    url: https://index.docker.io/v1/
+    namespace: titanlien

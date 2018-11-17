@@ -16,6 +16,23 @@
 * Using environment variables to init our db schema.
 * Building images from ```$ansible-container build```, running container with ```$ansible-container run```.
 * [Demo record](https://asciinema.org/a/PBc9cUDo0AuUexZyjDSrITHoy)
+* Push / Deploy: before upload your docker images to registries, you should make sure your authenticate is working in *~/.docker/config.json*. Here is docker hub's example 
+```
+{
+     "HttpHeaders": {
+          "User-Agent": "Docker-Client/18.06.1-ce (darwin)"
+     },
+     "auths": {
+          "https://index.docker.io/v1/": {
+               "auth": PASSWORD,
+               "email": null
+          }
+     },
+     "credsStore": "osxkeychain",
+     "stackOrchestrator": "swarm"
+}
+```
+Deploy could generate the default playbook used on cloud platform.
 
 ## Part 3.
 1. Database volumn is missing. We need consider mount the data folder into localhost or persistent disk on GCP or AWS.

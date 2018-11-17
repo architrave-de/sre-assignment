@@ -1,0 +1,111 @@
+  - name: Deploy architrave
+    hosts: localhost
+    gather_facts: false
+    tasks:
+      - docker_service:
+            definition:
+                services: &id001
+                    web:
+                        image: https://index.docker.io/v1/titanlien/architrave-web
+                        command: /usr/sbin/nginx -c /etc/nginx/nginx.conf -g "daemon
+                            off;"
+                        ports:
+                          - 80:80
+                          - 443:443
+                        links:
+                          - php:php
+                    php:
+                        image: https://index.docker.io/v1/titanlien/architrave-php
+                        command: /usr/local/sbin/php-fpm
+                        links:
+                          - db:db
+                    db:
+                        image: https://index.docker.io/v1/titanlien/architrave-db
+                        command: /scripts/start.sh
+                version: '2'
+            state: present
+            project_name: architrave
+        tags:
+          - start
+      - docker_service:
+            definition:
+                services: *id001
+                version: '2'
+            state: present
+            project_name: architrave
+            restarted: true
+        tags:
+          - restart
+      - docker_service:
+            definition:
+                services: *id001
+                version: '2'
+            state: present
+            project_name: architrave
+            stopped: true
+        tags:
+          - stop
+      - docker_service:
+            definition:
+                services: *id001
+                version: '2'
+            state: absent
+            project_name: architrave
+            remove_volumes: yes
+        tags:
+          - destroy
+      - docker_image:
+            state: absent
+            force: yes
+            name: architrave/architrave-web:20181117080847
+        tags: destroy
+      - docker_image:
+            state: absent
+            force: yes
+            name: architrave-web:20181117080847
+        tags: destroy
+      - docker_image:
+            state: absent
+            force: yes
+            name: architrave-web:latest
+        tags: destroy
+      - docker_image:
+            state: absent
+            force: yes
+            name: titanlien/architrave-web:20181117080847
+        tags: destroy
+      - docker_image:
+            state: absent
+            force: yes
+            name: architrave-php:20181117080950
+        tags: destroy
+      - docker_image:
+            state: absent
+            force: yes
+            name: architrave-php:latest
+        tags: destroy
+      - docker_image:
+            state: absent
+            force: yes
+            name: titanlien/architrave-php:20181117080950
+        tags: destroy
+      - docker_image:
+            state: absent
+            force: yes
+            name: architrave-db:20181117081006
+        tags: destroy
+      - docker_image:
+            state: absent
+            force: yes
+            name: architrave-db:latest
+        tags: destroy
+      - docker_image:
+            state: absent
+            force: yes
+            name: titanlien/architrave-db:20181117081006
+        tags: destroy
+      - docker_image:
+            state: absent
+            force: yes
+            name: architrave-conductor:latest
+        tags: destroy
