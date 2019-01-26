@@ -12,7 +12,7 @@
   - mysql-community-server
   - python-mysqldb                                    # required for ansible to interface with database
 
-- name: "Add a root user with password local (default host: localhost)"
+- name: "Add a root user"
   mysql_user:
     name: root
     password: "{{ db_root_password }}"
