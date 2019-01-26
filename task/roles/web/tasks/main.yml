@@ -1,4 +1,11 @@
 ---
+- name: Create testuser
+  user:
+    name: "{{ test_user }}"
+    password: "{{ test_user_password }}"
+    state: present
+    shell: /bin/bash
+
 - name: "NGINX"
   import_tasks: nginx.yml
   tags:
@@ -8,3 +15,4 @@
   import_tasks: php.yml
   tags:
     - php
+
