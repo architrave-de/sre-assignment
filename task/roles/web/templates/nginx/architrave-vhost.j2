@@ -1,7 +1,8 @@
 server {
     # redirect http request to https
-    listen  80;
-    server_name {{ fqdn }};
+    listen            80;
+    server_tokens     off; #https://geekflare.com/remove-server-header-banner-nginx/
+    server_name       {{ fqdn }};
     # we can also use $host variable which might seem more flexible,
     # but $host can be easily manipulate by client. Lets go for safer bet and avoid $host in redirection ?
     return 301 https://$server_name$request_uri;
