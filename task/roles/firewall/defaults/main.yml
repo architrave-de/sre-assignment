@@ -1,0 +1,5 @@
+---
+iptables_conf: "/etc/iptables.conf"
+ipatbles_conf_user: "root"
+ipatbles_conf_group: "root"
+ipatbles_conf_mode: "0744"
