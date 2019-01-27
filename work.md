@@ -7,3 +7,4 @@
 3. Nginx configartion has been updated to redirect http trrafic to https, however redirection is done using the server name as apposed to host name. The reason for this host can be easily manipulated by client, I am bit skeptical about it.
 4. Set `server_tokens` to off to remove the server version from the response.
 5. Created test user in webserver. The task was straightforward except one has to keep in mind to not provide plaintext password to ansible while creating user. Used `mkpasswd --method=sha-512 required_password` to generate sha-512 hash of the user password.
+6. Change the locatiion of default root of ngnix `/var/www` to `/srv/www`. One of the reason choosing directory `srv` is, this directory usually contain less clutter of files. Moreover, read access to `testuser` for this new directory.
