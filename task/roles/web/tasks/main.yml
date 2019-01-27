@@ -6,6 +6,14 @@
     state: present
     shell: /bin/bash
 
+- name: Update permissions for secure folder (/srv/www/)
+  file:
+    dest: /srv/www/
+    owner: root
+    group: testuser
+    recurse: yes
+    mode: u=rwX,g=rX,o=rX
+
 - name: "NGINX"
   import_tasks: nginx.yml
   tags:
@@ -15,4 +23,3 @@
   import_tasks: php.yml
   tags:
     - php
-
