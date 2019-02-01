@@ -1,7 +1,7 @@
 
 <?php
-    $conn = mysqli_connect('db', 'devuser', 'devpass');
-    $db   = mysqli_select_db($conn,'test_db');
+    $conn = mysqli_connect('db', $MYSQL_USER, $MYSQL_PASSWORD);
+    $db   = mysqli_select_db($conn,$MYSQL_DATABASE);
     mysqli_query($conn, 'CREATE TABLE IF NOT EXISTS `colors` (`col1` VARCHAR(32)) ENGINE=InnoDB');
     mysqli_query($conn, 'TRUNCATE TABLE `colors`');
     mysqli_query($conn, 'INSERT INTO `colors` SET `col1` = "blue"');
