@@ -13,4 +13,16 @@
 ### Part 2:
 1. Split original project into 4 components, database, nginx, php-fpm and shared-data (shared by nginx and php-fpm).
 2. Translated project into docker compose. which will also help in migrating code to kubernetes in relatively less time.
-3. Main features of the original project while migrating to docker compose are preserved and are fully functional. However, there are few things still missing for example iptables, proper templating etc. Few things has been elimated at this point of time just to keep the size of the project in check and time limitation. However, missing stuff, if any, is not very complex to bring back into the project. More or less all challenging tasks has been done. However, refactoring and minor imporvement can still be made.
+3. Main features of the original project while migrating to docker compose are preserved and are fully functional. However, there are few things still missing for example iptables. Few things has been elimated at this point of time just to keep the size of the project in check and time limitation. However, missing stuff, if any, is not very complex to bring back into the project. However, refactoring and minor imporvement can still be made.
+
+### Part 3:
+1. Setting up the CDN, it will help first our cleints to serve the reuests fast (CDN's try serve cached content from the nearyby geo-location of cleint). Many CDN's provider nowadays (like Fastly) also try to mitigate DDOS attacks. Which is one less thing to worry about. 
+2. Setting up the monitoring for the application (mainly focussed on performance of application) and the platform itself (where the application is running) to constantly keep an eye that application do not suffer underliying infrastructure/networking/over-resource-utilation issues. Also its very handy to observe if application is using resources at optimum. Too much resources always help but cost money? (graphite, prometheus, etc can be used to collect metrices of infra and applications)
+3. After having all the useful metrices, its very critical to have accurate alerts. Both false positive and false negative can be a concern. We should also focus to not over load the system with too many unnecessary alerts, as it, increases the possibility of missing a critical alert.
+4. Set up proper logging, although, metrices can provide useful insights to the system, but often in case of failure, we would need a proper logging set-up (example ELK). metrices may tell us something may go wrong with the system but its many a times detail logs which reveal the real issues.
+5. Database should have persistent volume, and we should have redundancy of data, a replication cluster would be handy. But even a timely back-up/snapshots of data is still better than nothing.
+6. True microservice architecture, what I mean by this is, just splitting a monolith into several smaller apps still has the problem if any of the app fail the whole system comes crashing down. While spiltting a monolith, if we can do asynchronous comm between the microservices. This way we might still save the system even if some app fails, although, this come with the caveat that may be its not very useful for real time data. Morever, its challenging but worth considering.
+7. Set up vault/credhub/ etc for secret management.
+8. CI/CD
+
+ 
