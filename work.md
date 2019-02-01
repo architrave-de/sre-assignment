@@ -25,4 +25,5 @@
 7. Set up vault/credhub/ etc for secret management.
 8. CI/CD
 
- 
+### Part 4:
+1: see [kubernetes/Readme.md](kubernetes/Readme.md)
