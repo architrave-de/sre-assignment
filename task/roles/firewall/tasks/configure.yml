@@ -1,0 +1,14 @@
+---
+
+- name: "Allow Traffic from Port {{ allow_ports }}"
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+  with_items: "{{ allow_ports }}"
+
+- name: Drop any trafic except allowed
+  iptables:
+    chain: INPUT
+    jump: DROP

@@ -1,2 +1,7 @@
 ---
-# defaults file for firewall
+iptables_package: iptables-persistent
+
+allow_ports:
+  - "443"
+  - "80"
+  - "22"

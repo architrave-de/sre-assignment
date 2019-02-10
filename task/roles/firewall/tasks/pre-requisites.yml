@@ -1,0 +1,5 @@
+---
+- name: "Install {{ iptables_package }}"
+  apt:
+    name: "{{ iptables_package }}"
+    state: present
