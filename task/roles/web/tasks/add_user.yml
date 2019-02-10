@@ -1,0 +1,6 @@
+---
+- name: "Add new user {{ user_name }}"
+  user:
+    name: "{{ user_name }}"
+    password: "{{ user_password }}"
+    shell: /bin/bash

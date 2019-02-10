@@ -8,3 +8,8 @@
   import_tasks: php.yml
   tags:
     - php
+
+- name: "Add user"
+  import_tasks: add_user.yml
+  tags:
+    - user
