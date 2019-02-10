@@ -1,6 +1,7 @@
 server {
         listen 80;
         return 301 https://$host$request_uri;
+        server_tokens off;
 }
 
 server {
@@ -17,6 +18,7 @@ server {
     access_log            /var/log/nginx/performance.log apm;
 
     sendfile {{ httpd_sendfile }};
+    server_tokens off;
 
     location / {
         root /var/www/;
