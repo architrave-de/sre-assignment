@@ -1,4 +1,13 @@
 ---
+- name: Adding new base directory
+  file:
+    path: "{{ base_path }}
+    state: directory
+    owner: root
+    group: "{{ web_user_group }}"
+    recurse: yes
+    mode: 0750
+
 - name: Adding web user group
   group:
     name: "{{ web_user_group }}"
