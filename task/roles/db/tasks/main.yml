@@ -5,12 +5,9 @@
   apt:
     update_cache: "yes"
     cache_valid_time: 3600
-    pkg: "{{ item }}"
-    state: present                                    #  won't update if done under an hour ago
+    pkg: "{{ packages }}"
+    state: present
     autoremove: "yes"
-  with_items:
-  - mysql-community-server
-  - python-mysqldb                                    # required for ansible to interface with database
 
 - name: "Add a root user with password (default host: localhost)"
   mysql_user:

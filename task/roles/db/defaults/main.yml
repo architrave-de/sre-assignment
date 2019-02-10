@@ -14,3 +14,7 @@ db_tunables: []
 
 mysql_slow_log_file: /var/log/mysql/mysql-slow.log
 mysql_slow_log_time: 20
+
+packages:
+  - mysql-community-server
+  - python-mysqldb
