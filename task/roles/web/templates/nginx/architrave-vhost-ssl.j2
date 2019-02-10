@@ -21,7 +21,7 @@ server {
     server_tokens off;
 
     location / {
-        root /var/www/;
+        root /srv/www/;
         try_files {{ httpd_try_files }};
         index  {{ httpd_index }};
         client_max_body_size {{ httpd_client_max_body_size }};
