@@ -31,7 +31,7 @@
     group: root
     mode: 644
   notify:
-    - "Restart mysql"
+    - "restart mysql"
 
 # Custom tunable overrides
 - name: "Custom tunables"
