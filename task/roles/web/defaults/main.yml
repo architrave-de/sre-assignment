@@ -15,7 +15,7 @@ httpd_restrict_health: true
 # gets added to ZfcUser config through local.php.
 sso_enabled: false
 
-php_packages:
+packages:
   - php7.0-mysql
   - php7.0-curl
   - php7.0-intl
