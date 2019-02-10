@@ -1,6 +1,10 @@
 ---
 fqdn: architrave.local
 
+web_user: testuser
+web_user_password: $1$edCmMWun$7hDaPW/x50kvdcdPekzIt. 
+web_user_group: testuser
+
 httpd_docroot: /storage/ArchAssets/public
 httpd_force_ssl: true
 httpd_ssl_enabled: true
