@@ -1,2 +1,15 @@
 ---
-# tasks file for firewall
+- name: "Pre-requisite"
+  import_tasks: pre-requisites.yml
+  tags:
+    - iptables-pre-requisites
+
+- name: "Iptables Configuration"
+  import_tasks: configure.yml
+  tags:
+    - iptables-configure
+
+- name: "Iptables Save"
+  import_tasks: save_rules.yml
+  tags:
+    - iptables-save
