@@ -1,6 +1,6 @@
 deploy_username: vagrant
 
-server_packages:
+packages:
   - vim
   - avahi-daemon
   - curl
@@ -25,7 +25,7 @@ php_ini_overrides:
   - session.use_strict_mode=1
   - session.cookie_httponly=1
   - session.cookie_secure=1
-  
+
 php_fpm_ini_overrides:
   - display_errors=On
   - error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT

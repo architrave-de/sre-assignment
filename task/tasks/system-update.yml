@@ -36,18 +36,23 @@
     mode: 0644
 
 - name: "FIX: Debian Jessie doesn't come with certain modules, required by ansible"
-  raw: apt-get install python-minimal aptitude -y
+  apt:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+    - python-minimal
+    - aptitude
 
 - name: "Update the server via apt-get"
   apt:
     update_cache: "yes"
+    cache_valid_time: 3600
 
 - name: "Install third party deps"
   apt:
-    name: "{{item}}"
+    name: "{{ packages }}"
     state: latest
-  with_items:
-    - "{{server_packages}}"
 
 - name: "Check swap setup"
   command: swapon -s
