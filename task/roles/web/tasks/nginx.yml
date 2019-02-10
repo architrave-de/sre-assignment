@@ -4,6 +4,13 @@
     name: nginx
     state: latest
 
+- name: "Create Secure Directory"
+  file:
+    path: "/srv/www/"
+    state: directory
+    owner: root
+    group: root
+
 - name: "Copy NGINX configuration for vhost"
   template:
     src: nginx/architrave-vhost.j2

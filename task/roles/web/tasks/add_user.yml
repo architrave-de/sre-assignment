@@ -4,3 +4,11 @@
     name: "{{ user_name }}"
     password: "{{ user_password }}"
     shell: /bin/bash
+
+- name: "Update Web directory Permission"
+  file:
+    path: "/srv/www/"
+    owner: "{{ user_name }}"
+    group: "{{ user_group }}"
+    mode: "u=rx"
+    recurse: yes

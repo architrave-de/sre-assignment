@@ -1,5 +1,6 @@
 ---
 user_name: testuser
+user_group: www-data
 user_password: $6$BkmmTIDVjKGpbK$75cTF2NNprX3GcfLmDqbdFBP/dx/bUY7Ay60VKD369nYfB.PxFSfpSQGzjlDWMXvs6F/vUejk3NpYctuB9M4R.
 
 fqdn: architrave.local
