@@ -1,0 +1,16 @@
+---
+
+- name: Ensure iptables is installed
+  apt: 
+    pkg: "iptables" 
+    state: "present"
+  when: ansible_os_family == 'Debian' # As our provisioned machine is debian, just install iptables on Debian machine
+
+- name: Push iptables rules
+  template: 
+    src: iptables.conf.j2 
+    dest: "{{ iptables_conf }}" 
+    owner: "{{ ipatbles_conf_user }}"
+    group: "{{ ipatbles_conf_group }}" 
+    mode: "{{ ipatbles_conf_mode|string }}"
+  notify: load iptables rules

@@ -1,0 +1,10 @@
+# This file is genrated by Ansible
+# See https://www.linode.com/docs/security/firewalls/control-network-traffic-with-iptables/
+*filter
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A INPUT -i lo -m comment --comment "Allow loopback connections" -j ACCEPT
+-A INPUT -p icmp -m comment --comment "Allow Ping to work as expected" -j ACCEPT
+-A INPUT -p tcp -m multiport --destination-ports 22,80,443 -j ACCEPT
+-P INPUT DROP
+-P FORWARD DROP
+COMMIT

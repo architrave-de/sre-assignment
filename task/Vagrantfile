@@ -8,6 +8,7 @@ Vagrant.configure("2") do |config|
     config.vm.define "default", primary: true do |default|
         default.ssh.username = "vagrant"
         default.vm.box = "architrave/Debian-jessie"
+        default.vm.synced_folder ".", "/vagrant", disabled: true # dont send file between host and provisioned vm, helps in mount: unknown filesystem type 'vboxsf' error
         default.vm.hostname = "architrave.local"
         default.vm.usable_port_range = (2200..2250)
         default.vm.network :private_network, ip: "10.250.0.10"

@@ -1,6 +1,8 @@
 ---
 fqdn: architrave.local
-
+test_user: testuser
+# used mkpasswd --method=sha-512 to generate hashed password for testuser
+test_user_password: '$6$ITL7SwzbFTFP3d9$UG6TPFiXjrUdXWlx8THywn5BXh0tjlbJFM3oLyInruVDPWn2CrLNCxW93FekgcOmo.MweTOm0PD7NW/Ek7bJv.'
 httpd_docroot: /storage/ArchAssets/public
 httpd_force_ssl: true
 httpd_ssl_enabled: true

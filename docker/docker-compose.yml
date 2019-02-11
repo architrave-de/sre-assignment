@@ -1,0 +1,50 @@
+version: '2'
+
+services:
+ 
+  nginx:
+    build: ./nginx/
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - data
+      - db
+      - fpm
+    environment:
+     - HTTPD_SSL_CERT_PATH=/etc/ssl/certs/architrave.crt
+     - HTTPD_SSL_KEY_PATH=/etc/ssl/private/architrave.key
+     - NGINX_SERVER_NAME=architrave.local
+     - NGINX_ROOT=/var/www #make sure this is same as volume in service data 
+     - HTTPD_INDEX=index.html index.htm index.php
+    volumes_from:
+      - data
+    command: 
+      - /bin/bash 
+      - -c 
+      - "envsubst '$$HTTPD_SSL_CERT_PATH $$HTTPD_SSL_KEY_PATH $$NGINX_SERVER_NAME $$NGINX_ROOT $$HTTPD_INDEX ' < /etc/nginx/conf.d/architrave-vhost-ssl.template > /etc/nginx/conf.d/architrave-vhost-ssl.conf && rm /etc/nginx/conf.d/architrave-vhost-ssl.template && exec nginx -g 'daemon off;'"
+ 
+  fpm:
+    build: ./php/
+    #image: php:fpm, dockerfile also copy setting opcache conf
+    volumes_from:
+      - data
+    depends_on:
+      - db
+      - data
+  
+  # Shared volume for ngnix and php-fpm
+  data:
+    build: ./data/
+    volumes:
+      - /var/www/
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: my_secret_pw_shh
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: devuser
+      MYSQL_PASSWORD: devpass
+    ports:
+      - "9906:3306"
