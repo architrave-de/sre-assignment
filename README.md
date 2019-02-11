@@ -10,9 +10,9 @@ The next step after receiving the assignment will be reviewing the code and the 
 ## General Guidlines:
 
 ### Workflow
-1. Clone the repository to your local machine and create a new branch from master
+1. Fork the repository, clone to your local machine and create a new branch from master
 2. Use separate commits in the way you'll commit when doing reall life tasks
-3. When done open a PR and ask a review from "Nir-Tal"
+3. When done open a PR and ask a review from "klemmster" or "archray"
 4. Send a link to the PR via the recruitment portal
 
 ### Important commit notes
