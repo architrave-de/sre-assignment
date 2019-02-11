@@ -1,0 +1,36 @@
+- name: Flush iptables rules
+  iptables:
+    flush: true
+
+- name: Allow all loopback traffic
+  iptables:
+    chain: INPUT
+    in_interface: lo
+    jump: ACCEPT
+
+- name: Allow ports
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    ctstate: NEW
+    jump: ACCEPT
+    comment: Accept new "{{ item }}" connections.
+  with_items: "{{ allow_ports }}"
+
+- name: Allow ESTABLISHED/RELATED
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    ctstate:
+      - ESTABLISHED
+      - RELATED
+    jump: ACCEPT
+    comment: Accept ESTABLISHED and RELATED.
+
+- name: Drop everything else
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    jump: DROP
+    comment: Drop everything else.

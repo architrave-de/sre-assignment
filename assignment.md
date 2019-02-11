@@ -39,12 +39,34 @@ To access the instance via http/s use `http://architrave.local`
 7. Create a new folder `docker` at the root of the repository
 8. Migrate the code to docker using micro-services architecture, all the files should be stored inside the `docker` folder.
 
+
 ### Part 3: Questions
 
 9. What elements are missing to make this a 'production' ready system? Please list them in
    order of priority and add a short explanation.
+   - Encrypt all passwords and private keys (docker secret)
+   - Crete QA and Stage environment, no changes pushed directly to production
+   - Redundant underlying infrastructure
+   - MySQL data dirs should be mounted in the host file system for persistence
+   - MySQL Cluster
+   - Split NGINX and PHP-FPM in two services so they can be easily scalable
+   - Migrate solution to Kubernetes to archive service discovery, load balancing and autoscaling
+   - Monitoring System that supports docker (Prometheus + cAdvisor)
+   - APM System
+   - External Monitoring System if the Application is accessed through internet (Pingdom)
+   - MySQL databases backup
+   - Web Application Firewall
+   - CDN Service
+   - Log solution (ELK)
+   - CI/CD Pipeline - Jenkins automation using Jenkinsfile  
+   - Stress test to detect bottlenecks.
+
 
 ### Part 4: Kubernetes
 
 10. What steps are needed to run the system on kubernetes? Please add a concise
     description of involved steps. If time allows, start implementing it.
+
+    Install Kubernetes on the environment (Kubespray). Kubespray can easily be customized as it is written in Ansible.
+    Convert docker-compose file using kompose tool to create the required Deployment and Services definition.
+    Deploy Services.

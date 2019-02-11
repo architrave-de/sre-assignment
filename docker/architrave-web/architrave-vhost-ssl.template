@@ -1,0 +1,32 @@
+server {
+    listen                443 ssl;
+    ssl_certificate       ${HTTPD_SSL_CERT_PATH};
+    ssl_certificate_key   ${HTTPD_SSL_KEY_PATH};
+    ssl_session_cache shared:SSL:20m;
+    ssl_session_timeout 180m;
+    add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
+
+    server_tokens off;
+
+    ssl_dhparam /etc/ssl/certs/dhparam.pem;
+
+    server_name           ${FQDN};
+    access_log            /var/log/nginx/access.log;
+#    access_log            /var/log/nginx/performance.log apm;
+
+
+    root ${WEB_USER_PATH};
+    location / {
+
+        index  index.php index.html index.htm;
+    }
+
+    sendfile ${HTTPD_SENDFILE};
+    location ~ \.php$ {
+      fastcgi_index  index.php;
+      fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+      fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+      include fastcgi_params;
+    }
+
+}
