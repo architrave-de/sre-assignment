@@ -8,8 +8,8 @@ services:
       - "8080:80"
       - "4430:443"
     depends_on: 
-      - db
       - php
+      - db
     # shared volume for index page
     volumes:
       - ./volume_data/:/var/www/html
