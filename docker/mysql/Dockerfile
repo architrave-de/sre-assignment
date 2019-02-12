@@ -3,6 +3,12 @@ FROM mysql
 
 MAINTAINER Tejas Gadaria
 
+# Setting up Environemnt Variable
+ENV MYSQL_ROOT_PASSWORD: local
+ENV MYSQL_DATABASE: localhost
+ENV MYSQL_USER: assignment
+ENV MYSQL_USER_PASSWORD: assignment
+
 # Install MySQL
 RUN groupadd -r mysql && useradd -r -g mysql mysql
 
