@@ -37,4 +37,4 @@ RUN cd /etc/nginx/ && openssl dhparam -dsaparam -out dhparams.pem 2048
 EXPOSE 80 443
 
 # Start nginx Service
-CMD ["service", "nginx", "restart"]
+ENTRYPOINT [“/usr/sbin/nginx”,”-g”,”daemon off;”]
