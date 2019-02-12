@@ -11,6 +11,7 @@ RUN mkdir /etc/nginx/sites-enabled
 RUN mkdir /etc/nginx/sites-available
 RUN mkdir /etc/ssl/certs
 RUN mkdir /etc/ssl/private
+RUN mkdir /srv/www
 
 # Remove unnecessary files
 RUN rm /etc/nginx/conf.d/default.conf
