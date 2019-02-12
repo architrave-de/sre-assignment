@@ -4,6 +4,7 @@ services:
   web:
     build: ./nginx/
     container_name: webserver-nginx
+    restart: always
     ports:
       - "9300":"80"
       - "9301":"443"
@@ -16,6 +17,7 @@ services:
   php:
     build: ./php/
     container_name: app-php-fm
+    restart: always
     depends_on:
       - db
     volumes:
@@ -24,5 +26,6 @@ services:
   db:
     build: ./mysql/
     container_name: mysql-server
+    restart: always
     ports:
       - "9306":"3306"
