@@ -18,6 +18,8 @@ Ansible Become_user should not be root, we can mark become=yes and provide other
 
 5. Apply ACL: Block all unused open ports on system, and allow traffic from only ports which is being used. Eg. As of now port 25(SMTP)/tcp is open, when we are not working with SMTP. This is case we should block this port on firewall as well as stop and remove the service from system.
 
+6. Based on the application load we are running we have to set the BIOS profile on the server, eg. Enable SRIOV, this can help to reduce the latecy hence improved performance.
+
 ##################
 Q4.What steps are needed to run the system on kubernetes? Please add a concise description of involved steps. If time allows, start implementing it.
 ##################
