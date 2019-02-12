@@ -1,2 +1,28 @@
 ---
-version: "3.2"
+version: '3.2'
+services:
+  web:
+    build: ./nginx/
+    container_name: webserver-nginx
+    ports:
+      - "9300":"80"
+      - "9301":"443"
+    depends_on:
+      - db
+      - php
+    volumes:
+      - ./shared/:/srv/www/
+
+  php:
+    build: ./php/
+    container_name: app-php-fm
+    depends_on:
+      - db
+    volumes:
+      - ./shared/:/srv/www/
+
+  db:
+    build: ./mysql/
+    container_name: mysql-server
+    ports:
+      - "9306":"3306"
