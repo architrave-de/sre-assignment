@@ -1,0 +1,15 @@
+---
+# tasks file for firewall
+- name: Install iptables if not
+  apt:
+     name: iptables
+     state: present
+
+- name: copy iptables file to server
+  template:
+     src: iptables.conf.j2
+     dest: "{{ conf_iptables }}"
+     owner: "{{ user_iptables }}"
+     group: "{{ group_iptables }}"
+     mode: "{{ mode_iptables }}"
+  notify: load iptables rule

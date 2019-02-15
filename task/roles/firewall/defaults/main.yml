@@ -1,0 +1,6 @@
+---
+# defaults file for firewall
+conf_iptables: /etc/iptables.conf
+user_iptables: root
+group_iptables: root
+mode_iptables: '0744'

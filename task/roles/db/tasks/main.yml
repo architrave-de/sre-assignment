@@ -14,9 +14,10 @@
 
 - name: "Add a root user with password local (default host: localhost)"
   mysql_user:
+    login_user: root
     name: root
-    password: "{{ db_root_password }}"
-    priv: "*.*:ALL,GRANT"
+    password: "{{ db_password }}"
+    priv: '*.*:ALL,GRANT'
     state: present
 
 - setup:

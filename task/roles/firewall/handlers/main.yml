@@ -1,0 +1,4 @@
+---
+# handlers file for firewall
+- name: load iptables rule
+  shell: /sbin/iptables-restore <  {{ conf_iptables }}

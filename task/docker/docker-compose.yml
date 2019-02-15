@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+  webserver:
+    container_name: nginx_server
+    build: ./webserver/
+    ports:
+      - "8080:80"
+      - "4430:443"
+    depends_on: 
+      - php
+      - db
+    # shared volume for index page
+    volumes:
+      - ./volume_data/:/var/www/html
+
+  php:
+    container_name: php_fpm
+    build: ./php/
+    depends_on:
+      - db
+    # shared volume for index page
+    volumes:
+      - ./volume_data/:/var/www/html
+
+  db:
+    container_name: db_server
+    build: ./db/
+    environment:
+      MYSQL_ROOT_PASSWORD: local
+      MYSQL_DATABASE: myqsldb
+      MYSQL_USER: test
+      MYSQL_USER_PASSWORD: test
+    ports:
+      - "3030:3306"
