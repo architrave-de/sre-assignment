@@ -96,8 +96,19 @@
   lineinfile:
     dest: /etc/nginx/nginx.conf
     insertafter: 'ssl_prefer_server_ciphers on;'
-    line: '       ssl_dhparam /etc/nginx/dhparams.pem;'
+    line: '        ssl_dhparam /etc/nginx/dhparams.pem;'
     state: present
   notify:
     - "Config test nginx"
     - "Restart nginx"
+
+- name: "Hide version"
+  replace:
+    path: /etc/nginx/nginx.conf
+    regexp: '# server_tokens off;'
+    replace: 'server_tokens off;'
+  notify:
+    - "Config test nginx"
+    - "Restart nginx"
+
+

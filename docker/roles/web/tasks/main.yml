@@ -1,0 +1,77 @@
+---
+- name: "Copy NGINX configuration for vhost"
+  template:
+    src: nginx/architrave-vhost.j2
+    dest: /etc/nginx/conf.d/architrave-vhost.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - beats
+
+- name: "Copy NGINX configuration for SSL vhost"
+  template:
+    src: nginx/architrave-vhost-ssl.j2
+    dest: /etc/nginx/conf.d/architrave-vhost-ssl.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - sso
+
+- name: "Disabling NGINX default configuration"
+  file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+
+- name: Create ssl folder
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - /etc/ssl
+    - /etc/ssl/private
+    - /etc/ssl/certs
+
+- name: "Copy over ssl certs"
+  template:
+    src: "nginx/cert.j2"
+    dest: "{{httpd_ssl_cert_path}}"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: "Copy over ssl private key"
+  template:
+    src: "nginx/key.j2"
+    dest: "{{httpd_ssl_key_path}}"
+    owner: root
+    group: root
+    mode: 0400
+
+- name: "Generate DH params"
+  command: openssl dhparam -out dhparams.pem 2048
+  args:
+    chdir: /etc/nginx
+    creates: /etc/nginx/dhparams.pem
+
+- name: "Customize settings in nginx.conf"
+  blockinfile:
+    path: /etc/nginx/nginx.conf
+    marker: "# ANSIBLE MANAGED BLOCK"
+    insertafter: "#gzip  on;"
+    content: |
+      tcp_nopush on;
+      tcp_nodelay on;
+      types_hash_max_size 2048;
+      server_tokens off;
+      ssl_protocols TLSv1 TLSv1.1 TLSv1.2; 
+      ssl_prefer_server_ciphers on;
+      ssl_dhparam /etc/nginx/dhparams.pem;
+      error_log /var/log/nginx/error.log;
+      gzip on;
+      gzip_disable "msie6";
+
+
+

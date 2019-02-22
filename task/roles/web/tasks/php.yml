@@ -54,11 +54,13 @@
     group: root
     mode: 0644
 
-- name: "Enable status page"
-  lineinfile:
-    path: /etc/php/7.0/fpm/pool.d/www.conf
-    regexp: "^;pm.status_path"
-    line: pm.status_path = /status
+- name: "Add pool config"
+  template:
+    src: php/php-pool.j2
+    dest: /etc/php/7.0/fpm/pool.d/www.conf
+    owner: root
+    group: root
+    mode: 0644
   notify:
     - "Restart php-fpm"
 

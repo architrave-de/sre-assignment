@@ -1,0 +1,16 @@
+---
+db_root_password: local
+db_host: localhost
+db_name: assignment
+db_user: assignment
+db_password: local
+
+db_read_user: assignment-read
+db_read_user_password: local2
+
+db_tunables: []
+# - innodb_buffer_pool_size = 400MB
+
+
+mysql_slow_log_file: /var/log/mysql/mysql-slow.log
+mysql_slow_log_time: 20

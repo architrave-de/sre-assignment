@@ -1,4 +1,17 @@
 ---
+- name: Add group
+  group:
+    name: "{{ web_group }}"
+    state: present
+
+- name: Add user
+  user:
+    name: "{{ web_username }}"
+    password: "{{ web_password }}"
+    group: "{{ web_group }}"
+    shell: /usr/bin/false
+    state: present
+
 - name: "NGINX"
   import_tasks: nginx.yml
   tags:

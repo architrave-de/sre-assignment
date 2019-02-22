@@ -1,0 +1,15 @@
+#!/bin/sh
+
+tempfile=$(mktemp)
+
+echo "USE mysql;" > $tempfile
+echo "FLUSH PRIVILEGES;" >> $tempfile
+echo "CREATE DATABASE IF NOT EXISTS \`{{ db_name }}\` CHARACTER SET utf8 COLLATE utf8_general_ci;" >> $tempfile
+echo "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY '{{ db_root_password }}' WITH GRANT OPTION;" >> $tempfile
+echo "GRANT ALL ON \`{{ db_name }}\`.* TO \`{{ db_user }}\`@'%' IDENTIFIED BY '{{ db_password }}' WITH GRANT OPTION;" >> $tempfile
+echo "GRANT SELECT,LOCK TABLES ON \`{{ db_name }}\`.* TO \`{{ db_read_user }}\`@'%' IDENTIFIED BY '{{ db_read_user_password }}' WITH GRANT OPTION;" >> $tempfile
+echo "DROP DATABASE test;" >> $tempfile
+echo "DELETE FROM user WHERE user='';" >> $tempfile
+/usr/bin/mysqld --user=mysql --bootstrap --verbose=0 < $tempfile 
+rm -f $tempfile
+rm -f init_db.sh

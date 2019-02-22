@@ -1,0 +1,47 @@
+---
+- name: "Install php depenedencies"
+  apk: 
+    name: "{{ item }}"
+    state: present
+  with_items: "{{php_dependencies}}"
+
+- name: "Configure docker extension"
+  command: docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+
+- name: "Install PHP extensions by docker-php-ext"
+  command: docker-php-ext-install {{ item }}
+  with_items: "{{ext_install_php_packages}}"
+
+- name: "Install PHP extensions by pecl"
+  pear: 
+    name: "{{ item }}"
+    state: present
+  with_items: "{{pecl_install_php_packages}}"
+
+- name: "Enable PHP extensions"
+  command: docker-php-ext-enable {{ item }}
+  with_items: "{{enable_packages}}"
+
+- name: "Configure php.ini overrides for fpm"
+  template:
+    src: php/php-fpm.j2
+    dest: /usr/local/etc/php/conf.d/architrave.ini
+    owner: root
+    group: root
+    mode: 0644
+
+- name: "Configure php.ini overrides for cli"
+  template:
+    src: php/php-cli.j2
+    dest: /usr/local/etc/php/conf.d/architrave-cli.ini
+    owner: root
+    group: root
+    mode: 0644
+
+- name: "Add pool config"
+  template:
+    src: php/php-pool.j2
+    dest: /usr/local/etc/php-fpm.d/www.conf
+    owner: root
+    group: root
+    mode: 0644
